@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.User">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="userName" jdbcType="VARCHAR" property="username"/>
+        <result column="passWord" jdbcType="VARCHAR" property="password"/>
+        <result column="realName" jdbcType="VARCHAR" property="address"/>
+    </resultMap>
+
+    <select id="Sel" resultType="com.example.demo.entity.User">
+        select * from user where id = #{id}
+    </select>
+    <!--SelectAll-->
+    <select id="SelectAll" resultType="com.example.demo.entity.User">
+        select * from user
+    </select>
+
+
+
+    <insert id="Add" parameterType="com.example.demo.entity.User">
+        INSERT INTO user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="user.username != null">
+                username,
+            </if>
+            <if test="user.password != null">
+                password,
+            </if>
+            <if test="user.address != null">
+                address,
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="user.username != null">
+                #{user.username,jdbcType=VARCHAR},
+            </if>
+            <if test="user.password != null">
+                #{user.password,jdbcType=VARCHAR},
+            </if>
+            <if test="user.address != null">
+                #{user.address,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="Update" parameterType="com.example.demo.entity.User">
+        UPDATE user
+        <set>
+            <if test="user.username != null">
+                username = #{user.username},
+            </if>
+            <if test="user.password != null">
+                password = #{user.password},
+            </if>
+            <if test="user.address != null">
+                address = #{user.address}
+            </if>
+        </set>
+        WHERE
+        id=#{user.id}
+    </update>
+
+    <delete id="Delete"  parameterType="com.example.demo.entity.User">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
+
+
+</mapper>
